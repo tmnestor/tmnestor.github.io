@@ -1,0 +1,25 @@
+---
+name: my-website
+output_dir: docs
+include: demo.R
+exclude:
+- '*.Rmd'
+- '*.csv'
+navbar:
+  title: DSM
+  left:
+  - text: Home
+    href: index.html
+  - text: Cyclones
+    href: cyclones.html
+  - text: Earthquakes
+    href: quakes.html
+output:
+  html_document:
+    theme: readable
+    toc: true
+# output:
+#   rmarkdown::html_document:
+#     theme: lumen
+#     highlight: github
+---
