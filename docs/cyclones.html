@@ -301,11 +301,8 @@ Public</a></p>
 href="http://www.bom.gov.au/cyclone/tropical-cyclone-knowledge-centre/databases/">BOM
 Tropical Cyclone Database</a></p>
 </div>
-<div id="data-processing-pipeline" class="section level3">
-<h3>Data Processing Pipeline</h3>
-<p><a
-href="http://www.bom.gov.au/cyclone/tropical-cyclone-knowledge-centre/databases/">BOM
-Tropical Cyclone Database</a></p>
+<div id="the-data-processing-pipeline" class="section level3">
+<h3>The Data Processing Pipeline</h3>
 <pre class="r"><code>cyclone_raw &lt;- read_csv(paste0(base_dir,&quot;cyclone_tracks.csv&quot;))
 cyclone &lt;- cyclone_raw |&gt; drop_na(TM) |&gt; drop_na(MAX_WIND_SPD)
 # cyclone |&gt; summary()
