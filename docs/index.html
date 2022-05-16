@@ -11,7 +11,7 @@
 
 
 
-<title>Home</title>
+<title>Credit Risk Models</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -29,11 +29,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -213,73 +209,7 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
-
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
 
 
 
@@ -289,16 +219,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -339,30 +259,57 @@ div.tocify {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+
+
+<h1 class="title toc-ignore">Credit Risk Models</h1>
+
+</div>
+
+
+<p>An effective Machine Learning Model for Customer Credit Risk
+Classification must address two important issues:</p>
+<ol style="list-style-type: decimal">
+<li><p>The <strong>imbalance</strong> in the proportion of good and bad
+risk customer records available for training the model.</p></li>
+<li><p>The <strong>asymmetry</strong> in the business cost of a False
+Negative (i.e., the incorrect classification of a bad risk as good) and
+a False Positive (i.e., the incorrect classification of a good risk as
+bad).</p></li>
+</ol>
+<p>The class <strong>imbalance</strong> problem results in machine
+learning models that are biased to predict the majority (i.e., good)
+class. To avoid this bias, one of the following preprocessing strategies
+must be applied:</p>
+<ul>
+<li>Over-sample the bad credit class records in the training set</li>
+<li>Under-sampling the good credit class records in the training
+set</li>
+<li>Synthesise new bad credit class records</li>
 </ul>
-</div>
-
-
-
-<h1 class="title toc-ignore">Home</h1>
-
-</div>
-
-
-<p>Choose one of the tabs shown above, to view one of my recent data
-science explorations.</p>
+<p>The <strong>asymmetric</strong> business cost of incorrect
+predictions can be controlled by adjusting the threshold for credit
+approval to ensure that:</p>
+<ul>
+<li>bad risk classifications are more likely (resulting in fewer
+defaults)</li>
+<li>the reduction number of good risk loans is minimised</li>
+</ul>
+<p>There is an inevitable trade-off between minimising the False
+Positive Rate and the False Negative of the model. This tradeoff is
+controlled by the chosen threshold and will depend on both the business
+model (e.g. many low profit, or fewer but higher profit loans) and the
+market place (e.g. historic default rates of the region).</p>
+<p>The relative performance of several classification models trained and
+assessed on the <a
+href="%22http://archive.ics.uci.edu/ml/machine-learning-databases/statlog/german/german.data%22">UCI
+Machine Learning Data Base</a> data-set is reported here. Attention is
+focused on both the training set imbalance and business cost asymmetry
+in the implementations.</p>
 
 <hr>
 <p>Pointless Footer</p>
 
 
-</div>
-</div>
 
 </div>
 
@@ -394,41 +341,7 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
-});
-</script>
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

@@ -23,12 +23,8 @@ output:
     highlight: pygments
     include:
       after_body: footer.html
-    code_folding: hide
-    toc: true
-    number_sections: true
-    toc_float: true
-# output:
-#   rmarkdown::html_document:
-#     theme: lumen
-#     highlight: github
+    # code_folding: hide
+    # toc: true
+    # number_sections: true
+    # toc_float: true
 ---
