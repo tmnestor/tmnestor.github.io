@@ -5,22 +5,28 @@ output_dir: docs
 # exclude:
 # - '*.Rmd'
 # - '*.csv'
-# navbar:
-#   title: DSM
-#   left:
-#   - text: Home
-#     href: index.html
-#   - text: Cyclones
-#     href: cyclones.html
-#   - text: Earthquakes
-#     href: quakes.html
+navbar:
+  title: DSM
+  left:
+  - text: Home
+    href: index.html
+  - text: Cyclones
+    href: cyclones.html
+  - text: Earthquakes
+    href: quakes.html
+  right:
+    - icon: fa-github
+      href: https://github.com/tmnestor/
 output:
   html_document:
     theme: readable
     highlight: pygments
     include:
       after_body: footer.html
-    # toc: true
+    code_folding: hide
+    toc: true
+    number_sections: true
+    toc_float: true
 # output:
 #   rmarkdown::html_document:
 #     theme: lumen
