@@ -10,8 +10,8 @@ navbar:
   left:
   - text: Home
     href: index.html
-  # - text: CreditRiskClass
-  #   href: CreditRiskClass.html
+  - text: CreditRiskClass
+    href: CreditRiskClass.html
   right:
     - icon: fa-github
       href: https://github.com/tmnestor/
