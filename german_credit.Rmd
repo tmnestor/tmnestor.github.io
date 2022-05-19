@@ -9,13 +9,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Summary {.tabset}
-
-The performance of [Corels](https://corels.eecs.harvard.edu/) on test data is compared to an [XGboost](https://xgboost.readthedocs.io/en/latest/R-package/xgboostPresentation.html) walkthrough of [tidymodels with drake](https://github.com/hamedbh/test-drake-tidymodels).
-
-Precision is an important metric for loan decisions (i.e. when a good loan is predicted, how often it is true). In this example, on unseen test data, XGBoost achieves **82%** accuarcy (107 / (107 + 23)) vs. **78%** (117 / (117 + 34)) for Corels. The null accuracy (always predicting the most frequent class of a good loan) is **71%** (142 / (142 + 57).
-
-While XGBoost performs better, the Corels rules are short and easy to interpret. Also, the accuracy achieved by the two methods is similar (XGBoost **72%** vs. Corels **70%**).
 
 # Background
 

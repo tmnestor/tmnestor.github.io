@@ -274,15 +274,15 @@ a False Positive (i.e., the incorrect classification of a good risk as
 bad).</li>
 </ol>
 <ul>
-<li>There is an inevitable trade-off between minimising the False
-Positive Rate and the False Negative of the model. This tradeoff is
-controlled by the chosen threshold and will depend on both the business
-model (e.g. many low profit, or fewer but higher profit loans) and the
-market place (e.g. historic default rates of the region). The
-probability threshold for good customer membership is dependent on the
-marginal costs associated with declining credit to good customers (i.e.,
-the False Negative Rate) and granting credit to bad customers (i.e., the
-False Positive Rate).</li>
+<li>The inevitable trade-off between minimising the False Positive Rate
+and the False Negative of the model. This tradeoff is controlled by the
+chosen threshold and will depend on both the business model (e.g. many
+low profit, or fewer but higher profit loans) and the market place
+(e.g. historic default rates of the region). The probability threshold
+for good customer membership is dependent on the marginal costs
+associated with declining credit to good customers (i.e., the False
+Negative Rate) and granting credit to bad customers (i.e., the False
+Positive Rate).</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
 <li>Provide explainable predictions.</li>
@@ -292,7 +292,7 @@ False Positive Rate).</li>
 compliance.</li>
 </ul>
 <ol start="3" style="list-style-type: decimal">
-<li>Should be easy deploy.</li>
+<li>Should be easy to deploy.</li>
 </ol>
 <ul>
 <li>For example, can the model be translated into an SQL query that a
@@ -305,9 +305,27 @@ datasets available <a
 href="%22http://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)%22">UCI
 Machine Learning Data Base</a> are compared. Each model provides
 <strong>explainable and probabilistic</strong> prediction with a tunable
-<strong>good customer</strong> theshold depenant on the marginal cost of
-False Positive and/or False Negative predictions. Each model generates
-an SQL query that can run on the business database.</p>
+<strong>good customer</strong> theshold dependent on the marginal cost
+of False Positive and/or False Negative predictions. Each model
+generates an SQL query that can run on a database.</p>
+<div id="summary" class="section level1 tabset">
+<h1 class="tabset">Summary</h1>
+<p>The performance of <a
+href="https://corels.eecs.harvard.edu/">Corels</a> on test data is
+compared to an <a
+href="https://xgboost.readthedocs.io/en/latest/R-package/xgboostPresentation.html">XGboost</a>
+walkthrough of <a
+href="https://github.com/hamedbh/test-drake-tidymodels">tidymodels with
+drake</a>.</p>
+<p>Precision is an important metric for loan decisions (i.e. when a good
+loan is predicted, how often it is true). In this example, on unseen
+test data, XGBoost achieves <strong>82%</strong> accuarcy (107 / (107 +
+23)) vs. <strong>78%</strong> (117 / (117 + 34)) for Corels. The null
+accuracy (always predicting the most frequent class of a good loan) is
+<strong>71%</strong> (142 / (142 + 57).</p>
+<p>While XGBoost performs better, the Corels rules are short and easy to
+interpret. Also, the accuracy achieved by the two methods is similar
+(XGBoost <strong>72%</strong> vs. Corels <strong>70%</strong>).</p>
 <div id="attributions" class="section level2">
 <h2>Attributions:</h2>
 <ul>
@@ -315,6 +333,7 @@ an SQL query that can run on the business database.</p>
 <li><a
 href="https://xgboost.readthedocs.io/en/latest/R-package/xgboostPresentation.html">XGboost</a></li>
 </ul>
+</div>
 </div>
 
 
