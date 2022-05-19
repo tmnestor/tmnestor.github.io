@@ -173,14 +173,14 @@ plots <- purrr::map(cols, plot_fun)
 print(plots)
 ```
 
-# CORELS
+# CORELS {.tabset}
 
 ## Prepare data for Corels
 
 Using the recipes package in [tidymodels](https://www.tidymodels.org/) we create a recipe that converts the three continuous value columns into categories, then convert each category into its own individual dummy 0/1 column.
 
 ```{r}
-# create the data preperation recipe
+# create the data preparation recipe
 credit_recipe <-
   recipes::recipe(class ~ .,
     data = trainData
@@ -227,6 +227,8 @@ credit_train_model <-
     )
 ```
 
+## The Human Readable Rules
+
 Here are the Corels rules for predicting a good loan.
 
 ```{r}
@@ -235,6 +237,7 @@ credit_train_model$corels_console_output[2:7]
 
 And we can view the Corels rules as a [D3 network sankey diagram](https://christophergandrud.github.io/networkD3/#sankey) when applied to the training data.
 
+## Sankey Plot of Corels Rules
 ```{r, out.width = "100%"}
 networkD3::sankeyNetwork(# edges
                          Links = credit_train_model$sankey_edges_df, 
@@ -250,6 +253,8 @@ networkD3::sankeyNetwork(# edges
                          sinksRight = TRUE
                          )
 ```
+
+## Network Plot of Corels Rules
 
 And with some manipualation of the nodes and edges data, the rules can be viewed as a [visNetwork](https://datastorm-open.github.io/visNetwork/layout.html) visualisation.
 
@@ -285,10 +290,11 @@ visNetwork::visNetwork(nodes, edges, width = "100%") %>%
                          collapse = TRUE)
 ```
 
+## Simple If-then-else Logic
 
 A dataframe of just the true label, the columns used in the Corels rules, and the Corels predictions is returned. The columns have been ordered for you to work well in an [alluvial](https://github.com/erblast/easyalluvial/blob/master/README.md) plot.
 
-```{r, fig.width=10, fig.height=8}
+```{r, out.width = "100%"}
 p <- easyalluvial::alluvial_wide(credit_train_model$alluvial_df,
                                    NA_label = "not used",
                            col_vector_flow =c("#CC6666","lightgreen"),
@@ -299,6 +305,7 @@ p <- easyalluvial::alluvial_wide(credit_train_model$alluvial_df,
   ) + ggplot2::scale_x_discrete(guide = guide_axis(n.dodge=2))
 p
 ```
+## Stream Plot of Corels Rules
 
 We can also create an [interactive](https://erblast.github.io/easyalluvial/articles/parcats.html) version of the alluvial plot.
 
@@ -313,7 +320,7 @@ parcats::parcats(p = p,
 ```
 
 
-## Corels performance on test
+# Corels performance on the testset  {.tabset}
 
 Next we use the function `tidycorels::corels_predict()` to apply the Corels rules created on the training data to the test data that has already been pre-processed using the recipe created on the training data.
  
@@ -328,18 +335,18 @@ credit_test_predict <-
 We can now use the test data that has been labelled using the Corels rules and compare this to the true label to create a confusion matrix along with performance statistics.
 
 ```{r }
-conf_matrix <-
+corels_conf_matrix <-
   credit_test_predict$new_df_labelled %>%
   yardstick::conf_mat(
     truth = "class_X1",
     estimate = "corels_label"
   )
 
-ggplot2::autoplot(conf_matrix, "heatmap") + 
+ggplot2::autoplot(corels_conf_matrix, "heatmap") + 
   labs(title = "Corels Classifications",
       caption = "The columns represent the actual classification and the rows the predicted classification.")
 
-summary(conf_matrix, 
+summary(corels_conf_matrix, 
         event_level = "second") %>% 
   dplyr:::mutate(.estimate = round(.estimate, digits = 3)) %>%
   dplyr::select(.metric, .estimate) %>%
@@ -350,11 +357,11 @@ summary(conf_matrix,
   kableExtra::kable_styling("hover", full_width = F)
 ```
 
-Because, *"It is worse to class a customer as good when they are bad (5), than it is to class a customer as bad when they are good (1)."* ([see](https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data))), precision is a useful metric. It measures the proportion of True Positives (`r conf_matrix$table[2,2]` labelled good loans that were actually good), out of the True Positives plus False Positives (`r conf_matrix$table[2,1]` labelled good loans that were actually bad). This is the bottom row of the confusion matrix: `r conf_matrix$table[2,2]` / (`r conf_matrix$table[2,1]` + `r conf_matrix$table[2,2]`) = `r round(conf_matrix$table[2,2]/(conf_matrix$table[2,1]+conf_matrix$table[2,2]),3)`.
+Because, *"It is worse to class a customer as good when they are bad (5), than it is to class a customer as bad when they are good (1)."* ([see](https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data))), precision is a useful metric. It measures the proportion of True Positives (`r corels_conf_matrix$table[2,2]` labelled good loans that were actually good), out of the True Positives plus False Positives (`r corels_conf_matrix$table[2,1]` labelled good loans that were actually bad). This is the bottom row of the confusion matrix: `r corels_conf_matrix$table[2,2]` / (`r corels_conf_matrix$table[2,1]` + `r corels_conf_matrix$table[2,2]`) = `r round(corels_conf_matrix$table[2,2]/(corels_conf_matrix$table[2,1]+corels_conf_matrix$table[2,2]),3)`.
 
 By inspecting the alluvial plot on test data we can easily see where and why the rules have succeeded or failed to label the unseen test data correctly.
 
-```{r, fig.width=10, fig.height=8}
+```{r, out.width = "100%"}
 p <- credit_test_predict$alluvial_df %>%
   easyalluvial::alluvial_wide(stratum_width = 0.2,
                               NA_label = "not used",
@@ -584,7 +591,7 @@ final_fit %>%
   )
 ```
 
-## XGBoost performance on train
+## XGBoost performance on training set
 
 First we plot the ROC curve for all cut points of the probability of a good loan.
 
@@ -662,7 +669,7 @@ summary(cmat_train,
   kableExtra::kable_styling("hover", full_width = F)
 ```
 
-## XGBoost performance on test
+# XGBoost performance on test {.tabset}
 
 In contrast to the training data, the test set performance is much lower for all metrics. 
 
@@ -707,14 +714,14 @@ tune::autoplot(xgb_roc_curve) +
   )
 
 # confusion matrix
-cmat_test <- yardstick::conf_mat(xgb_test_preds,
+xgb_cmat_test <- yardstick::conf_mat(xgb_test_preds,
   truth = "class",
   estimate = ".pred_class"
 )
 
-ggplot2::autoplot(cmat_test, "heatmap")
+ggplot2::autoplot(xgb_cmat_test, "heatmap")
 
-summary(cmat_test, 
+summary(xgb_cmat_test, 
         event_level = "second") %>% 
   dplyr:::mutate(.estimate = round(.estimate, digits = 3)) %>%
   dplyr::select(.metric, .estimate) %>%
@@ -734,7 +741,7 @@ The [tidypredict](https://tidypredict.tidymodels.org/index.html) package..
 Then `tidypredict::tidypredict_fit()` is used to return the formula in R `dplyr::case_when()` code required to re-create the classification of the XGBoost model. Note how complex this formula is in contrast to the simple Corels rules.
 
 ```{r}
-# tidypredict::tidypredict_fit(final_fit$fit$fit)
+tidypredict::tidypredict_fit(final_fit$fit$fit)
 ```
 
 

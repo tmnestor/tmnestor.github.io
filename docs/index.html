@@ -266,48 +266,56 @@ $(document).ready(function () {
 <p>The objective of <strong>credit scoring</strong> is to classify
 customers into good applicants (likely to repay) from bad applicants
 (likely to default). An effective Machine Learning Model for credit
-scoring must address two important issues:</p>
+scoring must address three important issues:</p>
 <ol style="list-style-type: decimal">
-<li><p>The <strong>imbalance</strong> in the proportion of good and bad
-risk customer records available for training the model.</p></li>
-<li><p>The <strong>asymmetry</strong> in the business cost of a False
+<li>The <strong>asymmetry</strong> in the business cost of a False
 Negative (i.e., the incorrect classification of a bad risk as good) and
 a False Positive (i.e., the incorrect classification of a good risk as
-bad).</p></li>
+bad).</li>
 </ol>
-<p>The class <strong>imbalance</strong> problem results in machine
-learning models that are biased to predict the majority (i.e., good)
-class. To avoid this bias, one of the following preprocessing strategies
-must be applied:</p>
 <ul>
-<li>Over-sample the bad credit class records in the training set</li>
-<li>Under-sampling the good credit class records in the training
-set</li>
-<li>Synthesise new bad credit class records</li>
-</ul>
-<p>The <strong>asymmetric</strong> business cost of incorrect
-predictions can be controlled by adjusting the threshold for credit
-approval to ensure that:</p>
-<ul>
-<li>bad risk classifications are more likely (resulting in fewer
-defaults)</li>
-<li>the reduction number of good risk loans is minimised</li>
-</ul>
-<p>There is an inevitable trade-off between minimising the False
+<li>There is an inevitable trade-off between minimising the False
 Positive Rate and the False Negative of the model. This tradeoff is
 controlled by the chosen threshold and will depend on both the business
 model (e.g. many low profit, or fewer but higher profit loans) and the
-market place (e.g. historic default rates of the region).</p>
-<p>The relative performance of several classification models trained and
-assessed on the <a
+market place (e.g. historic default rates of the region). The
+probability threshold for good customer membership is dependent on the
+marginal costs associated with declining credit to good customers (i.e.,
+the False Negative Rate) and granting credit to bad customers (i.e., the
+False Positive Rate).</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Provide explainable predictions.</li>
+</ol>
+<ul>
+<li>Credit decisions should be justifiable for regulatory
+compliance.</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Should be easy deploy.</li>
+</ol>
+<ul>
+<li>For example, can the model be translated into an SQL query that a
+loans officer can run on a database, or will it need a <em>data
+scientist</em>!</li>
+</ul>
+<p>With these requirements in mind, the relative performance of two
+classification models trained and assessed on one of the few opensource
+datasets available <a
 href="%22http://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)%22">UCI
-Machine Learning Data Base</a> data-set predicting a binary outcome of
-default (bad), or paying off the credit in full (good). Attention is
-focused on both the training set imbalance and business cost asymmetry
-in the implementations.</p>
-<p><em>Precision</em> is an important metric for loan decisions (i.e.,
-when a good loan is predicted, how often it is true). <img
-src="Precisionrecall.png" alt="PerformanceMetrics" /></p>
+Machine Learning Data Base</a> are compared. Each model provides
+<strong>explainable and probabilistic</strong> prediction with a tunable
+<strong>good customer</strong> theshold depenant on the marginal cost of
+False Positive and/or False Negative predictions. Each model generates
+an SQL query that can run on the business database.</p>
+<div id="attributions" class="section level2">
+<h2>Attributions:</h2>
+<ul>
+<li><a href="https://corels.eecs.harvard.edu/">Corels</a></li>
+<li><a
+href="https://xgboost.readthedocs.io/en/latest/R-package/xgboostPresentation.html">XGboost</a></li>
+</ul>
+</div>
 
 
 
