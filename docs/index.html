@@ -239,7 +239,7 @@ $(document).ready(function () {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="CreditRiskClass.html">CreditRiskClass</a>
+  <a href="german_credit.html">german_credit</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -263,8 +263,10 @@ $(document).ready(function () {
 </div>
 
 
-<p>An effective Machine Learning Model for Customer Credit Risk
-Classification must address two important issues:</p>
+<p>The objective of <strong>credit scoring</strong> is to classify
+customers into good applicants (likely to repay) from bad applicants
+(likely to default). An effective Machine Learning Model for credit
+scoring must address two important issues:</p>
 <ol style="list-style-type: decimal">
 <li><p>The <strong>imbalance</strong> in the proportion of good and bad
 risk customer records available for training the model.</p></li>
@@ -298,13 +300,15 @@ model (e.g. many low profit, or fewer but higher profit loans) and the
 market place (e.g. historic default rates of the region).</p>
 <p>The relative performance of several classification models trained and
 assessed on the <a
-href="%22http://archive.ics.uci.edu/ml/machine-learning-databases/statlog/german/german.data%22">UCI
-Machine Learning Data Base</a> data-set is reported here. Attention is
+href="%22http://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)%22">UCI
+Machine Learning Data Base</a> data-set predicting a binary outcome of
+default (bad), or paying off the credit in full (good). Attention is
 focused on both the training set imbalance and business cost asymmetry
 in the implementations.</p>
+<p><em>Precision</em> is an important metric for loan decisions (i.e.,
+when a good loan is predicted, how often it is true). <img
+src="Precisionrecall.png" alt="PerformanceMetrics" /></p>
 
-<hr>
-<p>Pointless Footer</p>
 
 
 

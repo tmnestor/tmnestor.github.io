@@ -1,0 +1,1 @@
+{creditHistory:all.paid}~0;{checkingStatus:no.checking}~1;{duration:X.36..Inf.}~0;default~1

@@ -10,17 +10,21 @@ navbar:
   left:
   - text: Home
     href: index.html
-  - text: CreditRiskClass
-    href: CreditRiskClass.html
+  - text: german_credit
+    href: german_credit.html
   right:
     - icon: fa-github
       href: https://github.com/tmnestor/
+# output:
+#   cleanrmd::html_document_clean:
+#     theme: water-dark
+# output: distill::distill_article
 output:
   html_document:
     theme: readable
     highlight: pygments
-    include:
-      after_body: footer.html
+#     include:
+#       after_body: footer.html
     # code_folding: hide
     # toc: true
     # number_sections: true

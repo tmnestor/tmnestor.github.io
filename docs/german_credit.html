@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Two Model German Credit Analysis</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/d3-4.5.0/d3.min.js"></script>
+<script src="site_libs/sankey-1/sankey.js"></script>
+<script src="site_libs/sankeyNetwork-binding-0.4/sankeyNetwork.js"></script>
+<link href="site_libs/vis-9.1.0/vis-network.min.css" rel="stylesheet" />
+<script src="site_libs/vis-9.1.0/vis-network.min.js"></script>
+<script src="site_libs/visNetwork-binding-2.1.0/visNetwork.js"></script>
+<script src="site_libs/plotly.js-2.5.1/./plotly.min.js"></script>
+<script src="site_libs/parcats-binding-0.0.3/parcats.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">DSM</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="german_credit.html">german_credit</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/tmnestor/">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Two Model German Credit Analysis</h1>
+
+</div>
+
+
+<div id="summary" class="section level1 tabset">
+<h1 class="tabset">Summary</h1>
+<p>The performance of <a
+href="https://corels.eecs.harvard.edu/">Corels</a> on test data is
+compared to an <a
+href="https://xgboost.readthedocs.io/en/latest/R-package/xgboostPresentation.html">XGboost</a>
+walkthrough of <a
+href="https://github.com/hamedbh/test-drake-tidymodels">tidymodels with
+drake</a>.</p>
+<p>Precision is an important metric for loan decisions (i.e. when a good
+loan is predicted, how often it is true). In this example, on unseen
+test data, XGBoost achieves <strong>82%</strong> accuarcy (107 / (107 +
+23)) vs. <strong>78%</strong> (117 / (117 + 34)) for Corels. The null
+accuracy (always predicting the most frequent class of a good loan) is
+<strong>71%</strong> (142 / (142 + 57).</p>
+<p>While XGBoost performs better, the Corels rules are short and easy to
+interpret. Also, the accuracy achieved by the two methods is similar
+(XGBoost <strong>72%</strong> vs. Corels <strong>70%</strong>).</p>
+</div>
+<div id="background" class="section level1">
+<h1>Background</h1>
+<blockquote>
+<p>Corels are <a href="https://corels.eecs.harvard.edu/">‘Certifiably
+Optimal RulE ListS’</a>. They are short and simple human <a
+href="https://arxiv.org/pdf/1704.01701.pdf">interpretable rule lists</a>
+created on categorical data.</p>
+</blockquote>
+<p>This analysis compares the performance of a simple Corels rule set to
+xgboost on German credit data.</p>
+<p>The xgboost modelling of the <a
+href="https://www.openml.org/d/31">german credit data</a> is adapted
+from this excellent test of <a
+href="https://github.com/hamedbh/test-drake-tidymodels">tidymodels with
+drake</a>.</p>
+</div>
+<div id="data-preparation" class="section level1 tabset">
+<h1 class="tabset">Data Preparation</h1>
+<div id="data-source" class="section level2">
+<h2>Data source</h2>
+<p>The <a href="https://www.openml.org/d/31">german credit data</a> is
+downloaded and prepared.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidypredict)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corels)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidycorels)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(funModeling)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easyalluvial)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parcats)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(networkD3)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(formattable)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(visNetwork)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>dataset_url <span class="ot">&lt;-</span> <span class="st">&quot;https://www.openml.org/data/get_csv/31/dataset_31_credit-g.arff&quot;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>clean_df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file =</span> dataset_url,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                       <span class="at">header =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                       <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>(., <span class="st">&quot;small_camel&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">class =</span> <span class="fu">case_when</span>(class <span class="sc">==</span> <span class="st">&quot;bad&quot;</span> <span class="sc">~</span><span class="dv">0</span>, class <span class="sc">==</span> <span class="st">&quot;good&quot;</span> <span class="sc">~</span> <span class="dv">1</span>),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">class =</span> <span class="fu">as.factor</span>(class))</span></code></pre></div>
+</div>
+<div id="data-splitting" class="section level2">
+<h2>Data Splitting</h2>
+<p>We first <a
+href="https://rsample.tidymodels.org/articles/Applications/Recipes_and_rsample.html">split</a>
+the data into 80% training data and 20% test to evaluate the final model
+chosen. Folds of the training data are also created for cross-validation
+when building a classifier with XGBoost.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="at">seed =</span> <span class="dv">943</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>training_split <span class="ot">&lt;-</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  rsample<span class="sc">::</span><span class="fu">initial_split</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> clean_df,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">prop =</span> <span class="fl">0.8</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>trainData <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">training</span>(training_split)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>testData <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">testing</span>(training_split)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="at">seed =</span> <span class="dv">1738</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>folds <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">vfold_cv</span>(trainData,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">v =</span> <span class="dv">5</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="data-exploration" class="section level2">
+<h2>Data exploration</h2>
+<p>Let’s quickly explore the relationship between each predictor and the
+outcome of a good or bad loan.</p>
+<p>We use the funModels package to bin or categorise numeric predictors
+to <a
+href="https://blog.datascienceheroes.com/discretization-recursive-gain-ratio-maximization/">maximise
+the information gain ratio</a>. From this we can more easily
+<em>“semantically describe the relationship between the input and the
+target variable”</em>.</p>
+<p>We also store the cut points of the categorised continuous columns to
+be used later when preparing the data for Corels.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://blog.datascienceheroes.com/discretization-recursive-gain-ratio-maximization/</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>trainData_cat <span class="ot">&lt;-</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  trainData <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(dplyr<span class="sc">:::</span><span class="fu">across</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.cols =</span> <span class="fu">c</span>(duration, creditAmount,age),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="sc">~</span> funModeling<span class="sc">::</span><span class="fu">discretize_rgr</span>(<span class="at">input =</span> .x, <span class="at">target =</span> class)),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.names =</span> <span class="st">&quot;{col}Cat&quot;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> base<span class="sc">::</span><span class="fu">colnames</span>(dplyr<span class="sc">::</span><span class="fu">select</span>(trainData_cat, dplyr<span class="sc">::</span><span class="fu">contains</span>(<span class="st">&quot;Cat&quot;</span>)))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>age_cat_cuts <span class="ot">&lt;-</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  trainData_cat <span class="sc">%&gt;%</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ageCat) <span class="sc">%&gt;%</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">min =</span> <span class="fu">min</span>(age), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(min)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>duration_cat_cuts <span class="ot">&lt;-</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  trainData_cat <span class="sc">%&gt;%</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(durationCat) <span class="sc">%&gt;%</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">min =</span> <span class="fu">min</span>(duration), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(min)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>amount_cat_cuts <span class="ot">&lt;-</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  trainData_cat <span class="sc">%&gt;%</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(creditAmountCat) <span class="sc">%&gt;%</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">min =</span> <span class="fu">min</span>(creditAmount), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(min)</span></code></pre></div>
+<p>This function will plot each predictor against the outcome.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plot_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(cat) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  cat <span class="ot">&lt;-</span> rlang<span class="sc">::</span><span class="fu">ensym</span>(cat)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  trainData_cat <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">group_by</span>(<span class="sc">!!</span>cat, class) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="sc">!!</span>cat,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> n,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> forcats<span class="sc">::</span><span class="fu">fct_rev</span>(class),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> n</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_bar</span>(</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">position =</span> <span class="st">&quot;fill&quot;</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_text</span>(</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">position =</span> <span class="fu">position_fill</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># angle = 60,</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">hjust =</span> <span class="dv">1</span>,</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">10</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.direction =</span> <span class="st">&quot;vertical&quot;</span>,</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">22</span>,</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">face =</span> <span class="st">&quot;bold&quot;</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">scale_fill_manual</span>(<span class="st">&quot;Good/Bad Loan&quot;</span>,<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;lightgreen&quot;</span>,<span class="st">&quot;#CC6666&quot;</span>))</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Below we plot the relationships between each predictor and the
+outcome of a good or bad loan. Variables that have the most variation in
+the ratios of good and bad loans we would expect to feature in the
+classification models.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> base<span class="sc">::</span><span class="fu">colnames</span>(dplyr<span class="sc">::</span><span class="fu">select</span>(trainData_cat, <span class="sc">-</span>duration, <span class="sc">-</span>age, <span class="sc">-</span>creditAmount)) <span class="co"># getting all the column names but removing the continuous columns that have been binned.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> cols[cols <span class="sc">!=</span> <span class="st">&quot;class&quot;</span>] <span class="co"># remove outcome column from list of column names</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map</span>(cols, plot_fun)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plots)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span></code></pre></div>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[2]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[3]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-3.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[4]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-4.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[5]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-5.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[6]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-6.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[7]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-7.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[8]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-8.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[9]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-9.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[10]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-10.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[11]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-11.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[12]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-12.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[13]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-13.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[14]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-14.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[15]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-15.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[16]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-16.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[17]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-17.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[18]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-18.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[19]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-19.png" width="672" /></p>
+<pre><code>#&gt; 
+#&gt; [[20]]</code></pre>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-5-20.png" width="672" /></p>
+</div>
+</div>
+<div id="corels" class="section level1">
+<h1>CORELS</h1>
+<div id="prepare-data-for-corels" class="section level2">
+<h2>Prepare data for Corels</h2>
+<p>Using the recipes package in <a
+href="https://www.tidymodels.org/">tidymodels</a> we create a recipe
+that converts the three continuous value columns into categories, then
+convert each category into its own individual dummy 0/1 column.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the data preperation recipe</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>credit_recipe <span class="ot">&lt;-</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">recipe</span>(class <span class="sc">~</span> .,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> trainData</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 1 Apply the funModeling::discretize_rgr() cut points to continuous columns that maximise the information gain ratio on the training data only</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_mutate</span>(<span class="at">age =</span> base<span class="sc">::</span><span class="fu">cut</span>(age, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">&quot;-inf&quot;</span>, age_cat_cuts, <span class="st">&quot;inf&quot;</span>), <span class="at">right =</span> <span class="cn">FALSE</span>, <span class="at">dig.lab =</span> <span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_mutate</span>(<span class="at">duration =</span> base<span class="sc">::</span><span class="fu">cut</span>(duration, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">&quot;-inf&quot;</span>, duration_cat_cuts, <span class="st">&quot;inf&quot;</span>), <span class="at">right =</span> <span class="cn">FALSE</span>, <span class="at">dig.lab =</span> <span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_mutate</span>(<span class="at">creditAmount =</span> base<span class="sc">::</span><span class="fu">cut</span>(creditAmount, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">&quot;-inf&quot;</span>, amount_cat_cuts, <span class="st">&quot;inf&quot;</span>), <span class="at">right =</span> <span class="cn">FALSE</span>, <span class="at">dig.lab =</span> <span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 2 ensure column values that are words do not have spaces. This will form better dummy column names that tidycorels needs where the value each dummy column represents is shown by a single delimiter (e.g. the underscore step_dummy creates)</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_mutate_at</span>(recipes<span class="sc">::</span><span class="fu">all_predictors</span>(), <span class="at">fn =</span> <span class="fu">list</span>(<span class="sc">~</span> base<span class="sc">::</span><span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">&quot;_&quot;</span>, <span class="at">replacement =</span> <span class="st">&quot;.&quot;</span>, <span class="at">x =</span> .))) <span class="sc">%&gt;%</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 3 convert each value of each predictor into its own 0/1 binary column</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_mutate_at</span>(recipes<span class="sc">::</span><span class="fu">all_predictors</span>(), <span class="at">fn =</span> <span class="fu">list</span>(<span class="sc">~</span> <span class="fu">as.factor</span>(.))) <span class="sc">%&gt;%</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_dummy</span>(recipes<span class="sc">::</span><span class="fu">all_predictors</span>(), <span class="at">one_hot =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 4 convert each value of the outcome column into its own 0/1 binary column</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_mutate_at</span>(recipes<span class="sc">::</span><span class="fu">all_outcomes</span>(), <span class="at">fn =</span> <span class="fu">list</span>(<span class="sc">~</span> <span class="fu">as.factor</span>(.))) <span class="sc">%&gt;%</span> <span class="co"># step_dummy requires variable values to be factors</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_dummy</span>(recipes<span class="sc">::</span><span class="fu">all_outcomes</span>(), <span class="at">one_hot =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Train the data preperation recipe on the training data</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>credit_recipe_trained <span class="ot">&lt;-</span> recipes<span class="sc">::</span><span class="fu">prep</span>(credit_recipe, </span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">training =</span> trainData,</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">retain =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the train data with recipe applied (juice), and the same recipe applied to the test data (bake) data</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>credit_train_preprocessed <span class="ot">&lt;-</span> recipes<span class="sc">::</span><span class="fu">juice</span>(credit_recipe_trained)</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>credit_test_preprocessed <span class="ot">&lt;-</span> recipes<span class="sc">::</span><span class="fu">bake</span>(credit_recipe_trained, </span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">new_data =</span> testData)</span></code></pre></div>
+</div>
+<div id="run-tidycorels" class="section level2">
+<h2>Run tidycorels</h2>
+<p>We can now run <code>tidycorels::tidy_corels()</code> function on the
+prepared training data. We could consider varying the regularization
+argument in corels. This value, <em>“can be thought of as a penalty
+equivalent to misclassifying 1% of the data when increasing the length
+of a rule list by one association rule.”</em> When the regulraization
+value is low many rules are created that could <a
+href="https://en.wikipedia.org/wiki/Overfitting">overfit</a> to error in
+the training data. A higher value leads to fewer rules which may
+generalise better to unseen test data. Here we simply use the default
+value of 0.01 that leads to a small number of rules.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>credit_train_model <span class="ot">&lt;-</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  tidycorels<span class="sc">::</span><span class="fu">tidy_corels</span>(</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">df =</span> credit_train_preprocessed,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">label_cols =</span> <span class="fu">c</span>(<span class="st">&quot;class_X0&quot;</span>, <span class="st">&quot;class_X1&quot;</span>),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">value_delim =</span> <span class="st">&quot;_&quot;</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">run_bfs =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">calculate_size =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">run_curiosity =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">regularization =</span> <span class="fl">0.01</span>, </span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">curiosity_policy =</span> <span class="dv">3</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<p>Here are the Corels rules for predicting a good loan.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>credit_train_model<span class="sc">$</span>corels_console_output[<span class="dv">2</span><span class="sc">:</span><span class="dv">7</span>]</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;&quot;                                                        </span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;&quot;                                                        </span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;OPTIMAL RULE LIST&quot;                                       </span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;if ({creditHistory:all.paid}) then ({class:X0})&quot;         </span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;else if ({checkingStatus:no.checking}) then ({class:X1})&quot;</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6] &quot;else if ({duration:X.36..Inf.}) then ({class:X0})&quot;</span></span></code></pre></div>
+<p>And we can view the Corels rules as a <a
+href="https://christophergandrud.github.io/networkD3/#sankey">D3 network
+sankey diagram</a> when applied to the training data.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>networkD3<span class="sc">::</span><span class="fu">sankeyNetwork</span>(<span class="co"># edges</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">Links =</span> credit_train_model<span class="sc">$</span>sankey_edges_df, </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">Value =</span> <span class="st">&quot;value&quot;</span>, </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">Source =</span> <span class="st">&quot;source&quot;</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">Target =</span> <span class="st">&quot;target&quot;</span>, </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                         <span class="co"># nodes</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                         <span class="at">Nodes =</span> credit_train_model<span class="sc">$</span>sankey_nodes_df, </span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                         <span class="at">NodeID =</span> <span class="st">&quot;label&quot;</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                         <span class="co"># format</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">fontSize =</span> <span class="dv">12</span>, </span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">nodeWidth =</span> <span class="dv">40</span>,</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">sinksRight =</span> <span class="cn">TRUE</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>                         )</span></code></pre></div>
+<div id="htmlwidget-d5331d79345f93bed309" style="width:100%;height:480px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d5331d79345f93bed309">{"x":{"links":{"source":[0,0,1,4,4,5,6,7],"target":[6,7,3,0,1,2,3,2],"value":[370,86,307,456,307,37,370,86]},"nodes":{"name":["checkingStatus_no.checking = 0","checkingStatus_no.checking = 1","corels_label = 0","corels_label = 1","creditHistory_all.paid = 0","creditHistory_all.paid = 1","duration_X.36..Inf. = 0","duration_X.36..Inf. = 1"],"group":["checkingStatus_no.checking = 0","checkingStatus_no.checking = 1","corels_label = 0","corels_label = 1","creditHistory_all.paid = 0","creditHistory_all.paid = 1","duration_X.36..Inf. = 0","duration_X.36..Inf. = 1"]},"options":{"NodeID":"label","NodeGroup":"label","LinkGroup":null,"colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":12,"fontFamily":null,"nodeWidth":40,"nodePadding":10,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":true}},"evals":[],"jsHooks":[]}</script>
+<p>And with some manipualation of the nodes and edges data, the rules
+can be viewed as a <a
+href="https://datastorm-open.github.io/visNetwork/layout.html">visNetwork</a>
+visualisation.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>rule_count <span class="ot">&lt;-</span> base<span class="sc">::</span><span class="fu">nrow</span>(credit_train_model<span class="sc">$</span>rule_performance_df)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the rule order (or levels)</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>level <span class="ot">&lt;-</span> credit_train_model<span class="sc">$</span>rule_performance_df <span class="sc">%&gt;%</span> </span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">level =</span> dplyr<span class="sc">::</span><span class="fu">row_number</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">level_label =</span> rule) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(level_label,level)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co"># rename the edges</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>edges <span class="ot">&lt;-</span> credit_train_model<span class="sc">$</span>sankey_edges_df <span class="sc">%&gt;%</span> </span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">from =</span> source, <span class="at">to =</span> target) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">title =</span> value)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co"># add the levels</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> credit_train_model<span class="sc">$</span>sankey_nodes_df <span class="sc">%&gt;%</span> </span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">id =</span> ID) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">level_label =</span> stringi<span class="sc">::</span><span class="fu">stri_trim_both</span>(stringi<span class="sc">::</span><span class="fu">stri_sub</span>(label,<span class="dv">1</span>,<span class="sc">-</span><span class="dv">4</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(level) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">level =</span> <span class="fu">case_when</span>(<span class="fu">is.na</span>(level) <span class="sc">~</span> <span class="fu">as.numeric</span>(rule_count),<span class="cn">TRUE</span> <span class="sc">~</span><span class="fu">as.numeric</span>(level))) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">title =</span> level_label)</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>visNetwork<span class="sc">::</span><span class="fu">visNetwork</span>(nodes, edges, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>  visNetwork<span class="sc">::</span><span class="fu">visNodes</span>(<span class="at">size =</span> <span class="dv">12</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>  visNetwork<span class="sc">::</span><span class="fu">visEdges</span>(<span class="at">arrows =</span> <span class="st">&quot;to&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>  visNetwork<span class="sc">::</span><span class="fu">visHierarchicalLayout</span>(<span class="at">direction =</span> <span class="st">&quot;UD&quot;</span>, </span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">levelSeparation =</span> <span class="dv">80</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>  visNetwork<span class="sc">::</span><span class="fu">visInteraction</span>(<span class="at">navigationButtons =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>  visNetwork<span class="sc">::</span><span class="fu">visOptions</span>(<span class="at">highlightNearest =</span> <span class="fu">list</span>(<span class="at">enabled =</span> T, <span class="at">hover =</span> T), </span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>                         <span class="at">nodesIdSelection =</span> T,</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>                         <span class="at">collapse =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div id="htmlwidget-aa8a9ac4213e919e0af2" style="width:100%;height:480px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-aa8a9ac4213e919e0af2">{"x":{"nodes":{"label":["checkingStatus_no.checking = 0","checkingStatus_no.checking = 1","corels_label = 0","corels_label = 1","creditHistory_all.paid = 0","creditHistory_all.paid = 1","duration_X.36..Inf. = 0","duration_X.36..Inf. = 1"],"id":[0,1,2,3,4,5,6,7],"title":["checkingStatus_no.checking","checkingStatus_no.checking","corels_label","corels_label","creditHistory_all.paid","creditHistory_all.paid","duration_X.36..Inf.","duration_X.36..Inf."],"level":[2,2,4,4,1,1,3,3]},"edges":{"from":[0,0,1,4,4,5,6,7],"to":[6,7,3,0,1,2,3,2],"value":[370,86,307,456,307,37,370,86],"title":[370,86,307,456,307,37,370,86]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","size":12},"manipulation":{"enabled":false},"edges":{"arrows":"to"},"layout":{"hierarchical":{"enabled":true,"levelSeparation":80,"direction":"UD"}},"interaction":{"navigationButtons":true,"hover":true,"zoomSpeed":1}},"groups":null,"width":"100%","height":null,"idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);","highlight":{"enabled":true,"hoverNearest":true,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
+<p>A dataframe of just the true label, the columns used in the Corels
+rules, and the Corels predictions is returned. The columns have been
+ordered for you to work well in an <a
+href="https://github.com/erblast/easyalluvial/blob/master/README.md">alluvial</a>
+plot.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> easyalluvial<span class="sc">::</span><span class="fu">alluvial_wide</span>(credit_train_model<span class="sc">$</span>alluvial_df,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">NA_label =</span> <span class="st">&quot;not used&quot;</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">col_vector_flow =</span><span class="fu">c</span>(<span class="st">&quot;#CC6666&quot;</span>,<span class="st">&quot;lightgreen&quot;</span>),</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">auto_rotate_xlabs =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Corels if-then-else logic applied to training data&quot;</span>,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot; From truth (target_X1) to Corels classification (corels_label)&quot;</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">scale_x_discrete</span>(<span class="at">guide =</span> <span class="fu">guide_axis</span>(<span class="at">n.dodge=</span><span class="dv">2</span>))</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-11-1.png" width="960" /></p>
+<p>We can also create an <a
+href="https://erblast.github.io/easyalluvial/articles/parcats.html">interactive</a>
+version of the alluvial plot.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>parcats<span class="sc">::</span><span class="fu">parcats</span>(<span class="at">p =</span> p,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data_input =</span> credit_train_model<span class="sc">$</span>alluvial_df,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">marginal_histograms =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">hoveron =</span> <span class="st">&#39;dimension&#39;</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">hoverinfo =</span> <span class="st">&#39;count&#39;</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labelfont =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">11</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div id="htmlwidget-71eca6b5d31757a7c7f9" style="width:100%;height:480px;" class="parcats html-widget"></div>
+<script type="application/json" data-for="htmlwidget-71eca6b5d31757a7c7f9">{"x":{"traces":{"parcats":{"type":"parcats","dimensions":[{"label":"class_X1","values":["0","0","0","0","1","1","1","1"],"categoryorder":"array","categoryarray":["1","0"]},{"label":"creditHistory_all.paid","values":["0","0","0","1","0","0","0","1"],"categoryorder":"array","categoryarray":["1","0"]},{"label":"checkingStatus_no.checking","values":["0","0","1","not used","0","0","1","not used"],"categoryorder":"array","categoryarray":["not used","1","0"]},{"label":"duration_X.36..Inf.","values":["0","1","not used","not used","0","1","not used","not used"],"categoryorder":"array","categoryarray":["not used","1","0"]},{"label":"corels_label","values":["1","0","1","0","1","0","1","0"],"categoryorder":"array","categoryarray":["1","0"]}],"counts":[133,52,40,23,237,34,267,14],"line":{"shape":"hspline","color":["#CC6666","#CC6666","#CC6666","#CC6666","lightgreen","lightgreen","lightgreen","lightgreen"]},"hoveron":"dimension","hoverinfo":"count","labelfont":{"size":11},"arrangement":"perpendicular","bundlecolors":true,"sortpaths":"forward","tickfont":null,"domain":{"y":[0,1]}}},"layout":[],"shapes":[],"shapes_original":[],"map_curve":[],"map_trace_2_shape":[],"map_type":[],"map_color":[],"parcats_cols":["#CC6666","#CC6666","#CC6666","#CC6666","lightgreen","lightgreen","lightgreen","lightgreen"],"imp":false},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="corels-performance-on-test" class="section level2">
+<h2>Corels performance on test</h2>
+<p>Next we use the function <code>tidycorels::corels_predict()</code> to
+apply the Corels rules created on the training data to the test data
+that has already been pre-processed using the recipe created on the
+training data.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>credit_test_predict <span class="ot">&lt;-</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  tidycorels<span class="sc">::</span><span class="fu">predict_corels</span>(</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> credit_train_model,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_df =</span> credit_test_preprocessed</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>We can now use the test data that has been labelled using the Corels
+rules and compare this to the true label to create a confusion matrix
+along with performance statistics.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>conf_matrix <span class="ot">&lt;-</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  credit_test_predict<span class="sc">$</span>new_df_labelled <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">conf_mat</span>(</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> <span class="st">&quot;class_X1&quot;</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> <span class="st">&quot;corels_label&quot;</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">autoplot</span>(conf_matrix, <span class="st">&quot;heatmap&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Corels Classifications&quot;</span>,</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;The columns represent the actual classification and the rows the predicted classification.&quot;</span>)</span></code></pre></div>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(conf_matrix, </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">event_level =</span> <span class="st">&quot;second&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">:::</span><span class="fu">mutate</span>(<span class="at">.estimate =</span> <span class="fu">round</span>(.estimate, <span class="at">digits =</span> <span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(.metric, .estimate) <span class="sc">%&gt;%</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(.metric <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;accuracy&quot;</span>,<span class="st">&quot;bal_accuracy&quot;</span>,<span class="st">&quot;precision&quot;</span>, <span class="st">&quot;recall&quot;</span>, <span class="st">&quot;f_meas&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">.estimate =</span> formattable<span class="sc">::</span><span class="fu">color_tile</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;orange&quot;</span>)(.estimate)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable</span>(<span class="at">escape =</span> F,</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">caption =</span> <span class="st">&quot;Corels Test data Performance&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(<span class="st">&quot;hover&quot;</span>, <span class="at">full_width =</span> F)</span></code></pre></div>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Corels Test data Performance
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+.metric
+</th>
+<th style="text-align:left;">
+.estimate
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+accuracy
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffd384">0.770</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+bal_accuracy
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">0.639</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+precision
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffc864">0.804</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+recall
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffa500">0.912</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_meas
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffb836">0.854</span>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Because, <em>“It is worse to class a customer as good when they are
+bad (5), than it is to class a customer as bad when they are good
+(1).”</em> (<a
+href="https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data)">see</a>),
+precision is a useful metric. It measures the proportion of True
+Positives (135 labelled good loans that were actually good), out of the
+True Positives plus False Positives (33 labelled good loans that were
+actually bad). This is the bottom row of the confusion matrix: 135 / (33
++ 135) = 0.804.</p>
+<p>By inspecting the alluvial plot on test data we can easily see where
+and why the rules have succeeded or failed to label the unseen test data
+correctly.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> credit_test_predict<span class="sc">$</span>alluvial_df <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  easyalluvial<span class="sc">::</span><span class="fu">alluvial_wide</span>(<span class="at">stratum_width =</span> <span class="fl">0.2</span>,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">NA_label =</span> <span class="st">&quot;not used&quot;</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">col_vector_flow =</span><span class="fu">c</span>(<span class="st">&quot;#CC6666&quot;</span>,<span class="st">&quot;lightgreen&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Corels if-then-else logic applied to test data&quot;</span>,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot; From truth (far left column) to Corels classification (far right column)&quot;</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">scale_x_discrete</span>(<span class="at">guide =</span> <span class="fu">guide_axis</span>(<span class="at">n.dodge=</span><span class="dv">2</span>))</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-15-1.png" width="960" /></p>
+<p>We can also create an <a
+href="https://erblast.github.io/easyalluvial/articles/parcats.html">interactive</a>
+version of the alluvial plot.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>parcats<span class="sc">::</span><span class="fu">parcats</span>(<span class="at">p =</span> p,</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data_input =</span> credit_test_predict<span class="sc">$</span>alluvial_df,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">marginal_histograms =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">hoveron =</span> <span class="st">&#39;dimension&#39;</span>,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">hoverinfo =</span> <span class="st">&#39;count&#39;</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labelfont =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">11</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div id="htmlwidget-23a4688f0470964ee578" style="width:100%;height:480px;" class="parcats html-widget"></div>
+<script type="application/json" data-for="htmlwidget-23a4688f0470964ee578">{"x":{"traces":{"parcats":{"type":"parcats","dimensions":[{"label":"class_X1","values":["0","0","0","0","1","1","1","1"],"categoryorder":"array","categoryarray":["1","0"]},{"label":"creditHistory_all.paid","values":["0","0","0","1","0","0","0","1"],"categoryorder":"array","categoryarray":["1","0"]},{"label":"checkingStatus_no.checking","values":["0","0","1","not used","0","0","1","not used"],"categoryorder":"array","categoryarray":["not used","1","0"]},{"label":"duration_X.36..Inf.","values":["0","1","not used","not used","0","1","not used","not used"],"categoryorder":"array","categoryarray":["not used","1","0"]},{"label":"corels_label","values":["1","0","1","0","1","0","1","0"],"categoryorder":"array","categoryarray":["1","0"]}],"counts":[29,14,4,5,61,6,74,7],"line":{"shape":"hspline","color":["#CC6666","#CC6666","#CC6666","#CC6666","lightgreen","lightgreen","lightgreen","lightgreen"]},"hoveron":"dimension","hoverinfo":"count","labelfont":{"size":11},"arrangement":"perpendicular","bundlecolors":true,"sortpaths":"forward","tickfont":null,"domain":{"y":[0,1]}}},"layout":[],"shapes":[],"shapes_original":[],"map_curve":[],"map_trace_2_shape":[],"map_type":[],"map_color":[],"parcats_cols":["#CC6666","#CC6666","#CC6666","#CC6666","lightgreen","lightgreen","lightgreen","lightgreen"],"imp":false},"evals":[],"jsHooks":[]}</script>
+<p>A data frame of the performance of each rule is also provided. This
+shows us that one of the weaker rules is
+<code>creditHistory_no.credits.all.paid</code>.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>credit_test_predict<span class="sc">$</span>rule_performance_df <span class="sc">%&gt;%</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">rule_perc_correct =</span> <span class="fu">round</span>(rule_perc_correct,<span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">rule_perc_correct =</span> formattable<span class="sc">::</span><span class="fu">color_tile</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;orange&quot;</span>)(rule_perc_correct)) <span class="sc">%&gt;%</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">rule_fire_count =</span> formattable<span class="sc">::</span><span class="fu">color_tile</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;lightblue&quot;</span>)(rule_fire_count)) <span class="sc">%&gt;%</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable</span>(<span class="at">escape =</span> F,</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">caption =</span> <span class="st">&quot;Corels Performance for each rule in order&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(<span class="st">&quot;hover&quot;</span>, <span class="at">full_width =</span> F)</span></code></pre></div>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Corels Performance for each rule in order
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+rule
+</th>
+<th style="text-align:left;">
+rule_fire_count
+</th>
+<th style="text-align:right;">
+rule_correct
+</th>
+<th style="text-align:left;">
+rule_perc_correct
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+creditHistory_all.paid
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">12</span>
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">41.7</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+checkingStatus_no.checking
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #b9dee9">78</span>
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffa500">94.9</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+duration_X.36..Inf.
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #f6fbfc">20</span>
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffcf77">70.0</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+else
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #add8e6">90</span>
+</td>
+<td style="text-align:right;">
+61
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffd281">67.8</span>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If we examine rule success on the training data the weaker
+<code>creditHistory_no.credits.all.paid</code> does perform better in
+the training data. However, we usually cannot use test data to improve a
+classifier without risking overfitting (though one option would be to
+use all of the data to build Corels rules with cross validation).</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>credit_train_model<span class="sc">$</span>rule_performance_df <span class="sc">%&gt;%</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">rule_perc_correct =</span> <span class="fu">round</span>(rule_perc_correct,<span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">rule_perc_correct =</span> formattable<span class="sc">::</span><span class="fu">color_tile</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;orange&quot;</span>)(rule_perc_correct)) <span class="sc">%&gt;%</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">rule_fire_count =</span> formattable<span class="sc">::</span><span class="fu">color_tile</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;lightblue&quot;</span>)(rule_fire_count)) <span class="sc">%&gt;%</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable</span>(<span class="at">escape =</span> F,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">caption =</span> <span class="st">&quot;Corels Performance for each rule in order&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(<span class="st">&quot;hover&quot;</span>, <span class="at">full_width =</span> F)</span></code></pre></div>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Corels Performance for each rule in order
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+rule
+</th>
+<th style="text-align:left;">
+rule_fire_count
+</th>
+<th style="text-align:right;">
+rule_correct
+</th>
+<th style="text-align:left;">
+rule_perc_correct
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+creditHistory_all.paid
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">37</span>
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #fff9ee">62.2</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+checkingStatus_no.checking
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #bcdfea">307</span>
+</td>
+<td style="text-align:right;">
+267
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffa500">87.0</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+duration_X.36..Inf.
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #f2f9fb">86</span>
+</td>
+<td style="text-align:right;">
+52
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">60.5</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+else
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #add8e6">370</span>
+</td>
+<td style="text-align:right;">
+237
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #fff2dc">64.1</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="xgbboost" class="section level1 tabset">
+<h1 class="tabset">XGBboost</h1>
+<p>Next we try XGBoost that is a Gradient Boosting Method:</p>
+<p><em>“GBMs build an ensemble of shallow trees in sequence with each
+tree learning and improving on the previous one. Although shallow trees
+by themselves are rather weak predictive models, they can be “boosted”
+to produce a powerful “committee” that, when appropriately tuned, is
+often hard to beat with other algorithms.”</em> From <a
+href="https://bradleyboehmke.github.io/HOML/gbm.html">“Hands on Machine
+Learning with R”</a></p>
+<p>All of the modelling steps below are adapated from the excellent <a
+href="https://github.com/hamedbh/test-drake-tidymodels">tidymodels with
+drake</a>.</p>
+<div id="data-recipe" class="section level2">
+<h2>Data recipe</h2>
+<p>In the data recipe only the categorical columns are one-hot encoded
+into one column per value.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>xgb_pre_proc <span class="ot">&lt;-</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">recipe</span>(class <span class="sc">~</span> ., <span class="at">data =</span> trainData) <span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">step_dummy</span>(recipes<span class="sc">::</span><span class="fu">all_nominal</span>(),<span class="sc">-</span>recipes<span class="sc">::</span><span class="fu">all_outcomes</span>(),<span class="at">one_hot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+</div>
+<div id="define-model-and-its-parameters" class="section level2">
+<h2>Define model and its parameters</h2>
+<p>Here we define which <a
+href="https://parsnip.tidymodels.org/reference/boost_tree.html">boost
+tree parameters</a> will be tuned later and which we fix.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>xgb_mod <span class="ot">&lt;-</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">boost_tree</span>(</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mtry =</span> tune<span class="sc">::</span><span class="fu">tune</span>(),</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">trees =</span> <span class="dv">500</span>,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_n =</span> tune<span class="sc">::</span><span class="fu">tune</span>(),</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">tree_depth =</span> tune<span class="sc">::</span><span class="fu">tune</span>(),</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">learn_rate =</span> <span class="fl">0.01</span>,</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sample_size =</span> tune<span class="sc">::</span><span class="fu">tune</span>()</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">set_mode</span>(<span class="st">&quot;classification&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">set_engine</span>(<span class="st">&quot;xgboost&quot;</span>)</span></code></pre></div>
+</div>
+<div id="add-recipe-and-model-to-a-workflow" class="section level2">
+<h2>Add recipe and model to a workflow</h2>
+<p>The workflow is therefore the data preparation recipe and the model
+specification (including its type and which parameters are to be tuned
+later).</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>xgb_wflow <span class="ot">&lt;-</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  workflows<span class="sc">::</span><span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  workflows<span class="sc">::</span><span class="fu">add_recipe</span>(xgb_pre_proc) <span class="sc">%&gt;%</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  workflows<span class="sc">::</span><span class="fu">add_model</span>(xgb_mod)</span></code></pre></div>
+</div>
+<div id="define-model-parameters" class="section level2">
+<h2>Define model parameters</h2>
+<p>Let’s now define the parameters by looking at the workflow</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>xgb_wflow <span class="sc">%&gt;%</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  dials<span class="sc">::</span><span class="fu">parameters</span>()</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Collection of 4 parameters for tuning</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   identifier        type    object</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         mtry        mtry nparam[?]</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        min_n       min_n nparam[+]</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   tree_depth  tree_depth nparam[+]</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  sample_size sample_size nparam[+]</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Model parameters needing finalization:</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    # Randomly Selected Predictors (&#39;mtry&#39;)</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; See `?dials::finalize` or `?dials::update.parameters` for more information.</span></span></code></pre></div>
+<p><code>mtry</code> is the number of predictors that will be randomly
+sampled at each split when creating the tree models. This is set to
+range between 40% of the features to all of the features.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>feat_count <span class="ot">&lt;-</span> <span class="fu">ncol</span>(xgb_pre_proc <span class="sc">%&gt;%</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">prep</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  recipes<span class="sc">::</span><span class="fu">juice</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>class))</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>mtry_min <span class="ot">&lt;-</span> base<span class="sc">::</span><span class="fu">floor</span>(feat_count <span class="sc">*</span> <span class="fl">0.4</span>)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>xgb_params <span class="ot">&lt;-</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  xgb_wflow <span class="sc">%&gt;%</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  dials<span class="sc">::</span><span class="fu">parameters</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  stats<span class="sc">::</span><span class="fu">update</span>(</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">mtry =</span> dials<span class="sc">::</span><span class="fu">mtry</span>(<span class="at">range =</span> <span class="fu">c</span>(mtry_min, feat_count)),</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">sample_size =</span> dials<span class="sc">::</span><span class="fu">sample_prop</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>)),</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">tree_depth =</span> dials<span class="sc">::</span><span class="fu">tree_depth</span>(<span class="at">range =</span> <span class="fu">c</span>(4L, 10L))</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Now that the range of the parameters has been set, a grid of possible
+values between those ranges can be created with
+<code>dials::grid_max_entropy()</code>, <em>“to construct parameter
+grids that try to cover the parameter space such that any portion of the
+space has an observed combination that is not too far from it.”</em></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1645</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>xgb_grid <span class="ot">&lt;-</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  xgb_params <span class="sc">%&gt;%</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  dials<span class="sc">::</span><span class="fu">grid_max_entropy</span>(<span class="at">size =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">sample_size =</span> <span class="fu">as.double</span>(sample_size))</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>xgb_grid</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 10 × 4</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     mtry min_n tree_depth sample_size</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt; &lt;int&gt;      &lt;int&gt;       &lt;dbl&gt;</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1    35    40          8       0.854</span></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2    59     5          6       0.625</span></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3    27     5          4       0.998</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4    27    35          7       0.601</span></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5    49    37          6       0.548</span></span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6    40    26          9       0.678</span></span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7    31    35          5       0.856</span></span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8    32     8          8       0.581</span></span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9    36    10          9       0.837</span></span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10    47    13          4       0.524</span></span></code></pre></div>
+</div>
+<div id="tune-xgboost-model" class="section level2">
+<h2>Tune XGBoost model</h2>
+<p>We can now tune the model by <a
+href="https://www.tidymodels.org/learn/work/tune-svm/">searching the
+grid of parameters</a>.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>tune_xgb_grid <span class="ot">&lt;-</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  tune<span class="sc">::</span><span class="fu">tune_grid</span>(xgb_wflow,</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> xgb_grid,</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">param_info =</span> xgb_params,</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">metrics =</span> yardstick<span class="sc">::</span><span class="fu">metric_set</span>(roc_auc),</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">control =</span> tune<span class="sc">::</span><span class="fu">control_grid</span>(</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">verbose =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">save_pred =</span> <span class="cn">TRUE</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>tune_xgb_grid</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # Tuning results</span></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # 5-fold cross-validation </span></span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 5</span></span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   splits            id    .metrics          .notes           .predictions</span></span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;list&gt;            &lt;chr&gt; &lt;list&gt;            &lt;list&gt;           &lt;list&gt;      </span></span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 &lt;split [640/160]&gt; Fold1 &lt;tibble [10 × 8]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    </span></span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 &lt;split [640/160]&gt; Fold2 &lt;tibble [10 × 8]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    </span></span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 &lt;split [640/160]&gt; Fold3 &lt;tibble [10 × 8]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    </span></span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 &lt;split [640/160]&gt; Fold4 &lt;tibble [10 × 8]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;    </span></span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 &lt;split [640/160]&gt; Fold5 &lt;tibble [10 × 8]&gt; &lt;tibble [0 × 3]&gt; &lt;tibble&gt;</span></span></code></pre></div>
+</div>
+<div id="tune-with-iterative-bayesian-optimisation"
+class="section level2">
+<h2>Tune with iterative Bayesian optimisation</h2>
+<p><em>“..iterative search can be used to analyze the existing tuning
+parameter results and then predict which tuning parameters to try
+next.”</em> <a
+href="https://www.tidymodels.org/learn/work/bayes-opt/">see</a></p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1600</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>xgb_bayes_tune <span class="ot">&lt;-</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  tune<span class="sc">::</span><span class="fu">tune_bayes</span>(xgb_wflow,</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds,</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter =</span> 5L,</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">param_info =</span> xgb_params,</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">metrics =</span> yardstick<span class="sc">::</span><span class="fu">metric_set</span>(roc_auc),</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">initial =</span> tune_xgb_grid,</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">control =</span> tune<span class="sc">::</span><span class="fu">control_bayes</span>(</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">verbose =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">save_pred =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">no_improve =</span> 5L</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+</div>
+<div id="select-best-model-parameters" class="section level2">
+<h2>Select best model parameters</h2>
+<p>We can select the hyperparameters giving the best results with
+<code>tune::select_best()</code> according to our chosen metric (area
+under the ROC curve).</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>best_xgb <span class="ot">&lt;-</span> </span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  xgb_bayes_tune <span class="sc">%&gt;%</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  tune<span class="sc">::</span><span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">&quot;roc_auc&quot;</span>)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>best_xgb</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 5</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    mtry min_n tree_depth sample_size .config</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;int&gt; &lt;int&gt;      &lt;int&gt;       &lt;dbl&gt; &lt;chr&gt;  </span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    28     2          8       0.500 Iter5</span></span></code></pre></div>
+<p>We now use <code>tune::finalize_workflow()</code> to generate a
+workflow object that adds the best performing model.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>best_xgb_wfl <span class="ot">&lt;-</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  tune<span class="sc">::</span><span class="fu">finalize_workflow</span>(xgb_wflow,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">parameters =</span> best_xgb</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>best_xgb_wfl</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ══ Workflow ════════════════════════════════════════════════════════════════════</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Preprocessor: Recipe</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Model: boost_tree()</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Preprocessor ────────────────────────────────────────────────────────────────</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Recipe Step</span></span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • step_dummy()</span></span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Model ───────────────────────────────────────────────────────────────────────</span></span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Boosted Tree Model Specification (classification)</span></span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Main Arguments:</span></span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   mtry = 28</span></span>
+<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   trees = 500</span></span>
+<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   min_n = 2</span></span>
+<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   tree_depth = 8</span></span>
+<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   learn_rate = 0.01</span></span>
+<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sample_size = 0.500337002937589</span></span>
+<span id="cb48-25"><a href="#cb48-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb48-26"><a href="#cb48-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Computational engine: xgboost</span></span></code></pre></div>
+<p>And then generate a fitted model from that workflow on the training
+data.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>final_fit <span class="ot">&lt;-</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  best_xgb_wfl <span class="sc">%&gt;%</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">fit</span>(<span class="at">data =</span> trainData)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>final_fit</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ══ Workflow [trained] ══════════════════════════════════════════════════════════</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Preprocessor: Recipe</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Model: boost_tree()</span></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Preprocessor ────────────────────────────────────────────────────────────────</span></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Recipe Step</span></span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; • step_dummy()</span></span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Model ───────────────────────────────────────────────────────────────────────</span></span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ##### xgb.Booster</span></span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; raw: 1001.2 Kb </span></span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; call:</span></span>
+<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   xgboost::xgb.train(params = list(eta = 0.01, max_depth = 8L, </span></span>
+<span id="cb49-20"><a href="#cb49-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     gamma = 0, colsample_bytree = 1, colsample_bynode = 0.459016393442623, </span></span>
+<span id="cb49-21"><a href="#cb49-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     min_child_weight = 2L, subsample = 0.500337002937589, objective = &quot;binary:logistic&quot;), </span></span>
+<span id="cb49-22"><a href="#cb49-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     data = x$data, nrounds = 500, watchlist = x$watchlist, verbose = 0, </span></span>
+<span id="cb49-23"><a href="#cb49-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     nthread = 1)</span></span>
+<span id="cb49-24"><a href="#cb49-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; params (as set within xgb.train):</span></span>
+<span id="cb49-25"><a href="#cb49-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   eta = &quot;0.01&quot;, max_depth = &quot;8&quot;, gamma = &quot;0&quot;, colsample_bytree = &quot;1&quot;, colsample_bynode = &quot;0.459016393442623&quot;, min_child_weight = &quot;2&quot;, subsample = &quot;0.500337002937589&quot;, objective = &quot;binary:logistic&quot;, nthread = &quot;1&quot;, validate_parameters = &quot;TRUE&quot;</span></span>
+<span id="cb49-26"><a href="#cb49-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; xgb.attributes:</span></span>
+<span id="cb49-27"><a href="#cb49-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   niter</span></span>
+<span id="cb49-28"><a href="#cb49-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; callbacks:</span></span>
+<span id="cb49-29"><a href="#cb49-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   cb.evaluation.log()</span></span>
+<span id="cb49-30"><a href="#cb49-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # of features: 61 </span></span>
+<span id="cb49-31"><a href="#cb49-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; niter: 500</span></span>
+<span id="cb49-32"><a href="#cb49-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; nfeatures : 61 </span></span>
+<span id="cb49-33"><a href="#cb49-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; evaluation_log:</span></span>
+<span id="cb49-34"><a href="#cb49-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     iter training_logloss</span></span>
+<span id="cb49-35"><a href="#cb49-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        1        0.6893940</span></span>
+<span id="cb49-36"><a href="#cb49-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        2        0.6858475</span></span>
+<span id="cb49-37"><a href="#cb49-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---                      </span></span>
+<span id="cb49-38"><a href="#cb49-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      499        0.2958099</span></span>
+<span id="cb49-39"><a href="#cb49-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      500        0.2954935</span></span></code></pre></div>
+</div>
+<div id="variable-importance" class="section level2">
+<h2>Variable importance</h2>
+<p>The <a
+href="https://koalaverse.github.io/vip/index.html"><code>{vip}</code></a>
+package provides variable importance plots. Further methods are well
+described in the <a
+href="https://christophm.github.io/interpretable-ml-book/">Interpretable
+machine learning</a> book.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>final_fit <span class="sc">%&gt;%</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  workflows<span class="sc">::</span><span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  vip<span class="sc">::</span><span class="fu">vip</span>(</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">&quot;col&quot;</span>,</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">num_features =</span> 12L,</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">include_type =</span> <span class="cn">TRUE</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="german_credit_files/figure-html/var%20imp%20plot%20XGBoost-1.png" width="672" /></p>
+</div>
+<div id="xgboost-performance-on-train" class="section level2">
+<h2>XGBoost performance on train</h2>
+<p>First we plot the ROC curve for all cut points of the probability of
+a good loan.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>xgb_train_preds <span class="ot">&lt;-</span> final_fit <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  stats<span class="sc">::</span><span class="fu">predict</span>(</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_data =</span> trainData,</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;prob&quot;</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_cols</span>(trainData <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(class))</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the full ROC curve</span></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>xgb_train_preds<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(xgb_train_preds<span class="sc">$</span>class)</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>xgb_roc_curve <span class="ot">&lt;-</span> yardstick<span class="sc">::</span><span class="fu">roc_curve</span>(xgb_train_preds,</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">truth =</span> class,</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>  .pred_1,</span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">event_level =</span> <span class="st">&#39;second&#39;</span></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the AUC value and plot the curve</span></span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>tune<span class="sc">::</span><span class="fu">autoplot</span>(xgb_roc_curve) <span class="sc">+</span></span>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">sprintf</span>(</span>
+<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;AUC for XGBoost model on train set: %.2f&quot;</span>,</span>
+<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a>      yardstick<span class="sc">::</span><span class="fu">roc_auc</span>(xgb_train_preds,</span>
+<span id="cb51-22"><a href="#cb51-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">truth =</span> class,</span>
+<span id="cb51-23"><a href="#cb51-23" aria-hidden="true" tabindex="-1"></a>        .pred_1,</span>
+<span id="cb51-24"><a href="#cb51-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">event_level =</span> <span class="st">&#39;second&#39;</span></span>
+<span id="cb51-25"><a href="#cb51-25" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span></span>
+<span id="cb51-26"><a href="#cb51-26" aria-hidden="true" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">pull</span>(.estimate)</span>
+<span id="cb51-27"><a href="#cb51-27" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb51-28"><a href="#cb51-28" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>To create a confusion matrix requires we select a cut off in the
+probability to label each record. We use <code>pROC::coords</code> from
+the <a href="https://github.com/xrobin/pROC">pROC</a> package to select
+the best threshold.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate best threshold for classification label</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>my_roc <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictor =</span> xgb_train_preds<span class="sc">$</span>.pred_1,</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">response =</span> xgb_train_preds<span class="sc">$</span>class</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">coords</span>(my_roc, <span class="st">&quot;best&quot;</span>, <span class="at">ret =</span> <span class="st">&quot;threshold&quot;</span>, <span class="at">transpose =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.double</span>()</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>xgb_train_preds <span class="ot">&lt;-</span></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>  xgb_train_preds <span class="sc">%&gt;%</span></span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">.pred_class =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>    .pred_1 <span class="sc">&gt;=</span> threshold <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">0</span></span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">.pred_class =</span> <span class="fu">as.factor</span>(.pred_class))</span>
+<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a><span class="co"># confusion matrix</span></span>
+<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>cmat_train <span class="ot">&lt;-</span> yardstick<span class="sc">::</span><span class="fu">conf_mat</span>(xgb_train_preds,</span>
+<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">truth =</span> <span class="st">&quot;class&quot;</span>,</span>
+<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate =</span> <span class="st">&quot;.pred_class&quot;</span></span>
+<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">autoplot</span>(cmat_train, <span class="st">&quot;heatmap&quot;</span>)</span></code></pre></div>
+<p><img src="german_credit_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>The confusion matrix can be used to generate the performance
+statistics below. All metrics are impressively high on the training data
+and superior to Corels. However, this could be due to overfitting. We
+can now use the test data to test for over fitting.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cmat_train, </span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">event_level =</span> <span class="st">&quot;second&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">:::</span><span class="fu">mutate</span>(<span class="at">.estimate =</span> <span class="fu">round</span>(.estimate, <span class="at">digits =</span> <span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(.metric, .estimate) <span class="sc">%&gt;%</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(.metric <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;accuracy&quot;</span>,<span class="st">&quot;bal_accuracy&quot;</span>,<span class="st">&quot;precision&quot;</span>, <span class="st">&quot;recall&quot;</span>, <span class="st">&quot;f_meas&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">.estimate =</span> formattable<span class="sc">::</span><span class="fu">color_tile</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;orange&quot;</span>)(.estimate)) <span class="sc">%&gt;%</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable</span>(<span class="at">escape =</span> F,</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">caption =</span> <span class="st">&quot;Corels Test data Performance&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(<span class="st">&quot;hover&quot;</span>, <span class="at">full_width =</span> F)</span></code></pre></div>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Corels Test data Performance
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+.metric
+</th>
+<th style="text-align:left;">
+.estimate
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+accuracy
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #fff6e7">0.912</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+bal_accuracy
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">0.908</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+precision
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffa500">0.951</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+recall
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffe5b7">0.920</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_meas
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffc458">0.936</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="xgboost-performance-on-test" class="section level2">
+<h2>XGBoost performance on test</h2>
+<p>In contrast to the training data, the test set performance is much
+lower for all metrics.</p>
+<p>An important evaluation metric is precision. This is because
+incorrectly labelling bad loans as good has the greatest cost.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>xgb_test_preds <span class="ot">&lt;-</span> final_fit <span class="sc">%&gt;%</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  stats<span class="sc">::</span><span class="fu">predict</span>(</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_data =</span> testData,</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;prob&quot;</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_cols</span>(testData <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(class))</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>xgb_test_preds <span class="ot">&lt;-</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>  xgb_test_preds <span class="sc">%&gt;%</span></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">.pred_class =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>    .pred_1 <span class="sc">&gt;=</span> threshold <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">0</span></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">.pred_class =</span> <span class="fu">as.factor</span>(.pred_class))</span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the full ROC curve</span></span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>xgb_test_preds<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(xgb_test_preds<span class="sc">$</span>class)</span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>xgb_roc_curve <span class="ot">&lt;-</span> yardstick<span class="sc">::</span><span class="fu">roc_curve</span>(xgb_test_preds,</span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">truth =</span> class,</span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>  .pred_1,</span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">event_level =</span> <span class="st">&#39;second&#39;</span></span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the AUC value and plot the curve</span></span>
+<span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a>tune<span class="sc">::</span><span class="fu">autoplot</span>(xgb_roc_curve) <span class="sc">+</span></span>
+<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb54-27"><a href="#cb54-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">sprintf</span>(</span>
+<span id="cb54-28"><a href="#cb54-28" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;AUC for XGBoost model on test set: %.2f&quot;</span>,</span>
+<span id="cb54-29"><a href="#cb54-29" aria-hidden="true" tabindex="-1"></a>      yardstick<span class="sc">::</span><span class="fu">roc_auc</span>(xgb_test_preds,</span>
+<span id="cb54-30"><a href="#cb54-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">truth =</span> class,</span>
+<span id="cb54-31"><a href="#cb54-31" aria-hidden="true" tabindex="-1"></a>        .pred_1,</span>
+<span id="cb54-32"><a href="#cb54-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">event_level =</span> <span class="st">&#39;second&#39;</span></span>
+<span id="cb54-33"><a href="#cb54-33" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span></span>
+<span id="cb54-34"><a href="#cb54-34" aria-hidden="true" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">pull</span>(.estimate)</span>
+<span id="cb54-35"><a href="#cb54-35" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb54-36"><a href="#cb54-36" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="german_credit_files/figure-html/test%20AUC%20XGBoost-1.png" width="672" /></p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="co"># confusion matrix</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>cmat_test <span class="ot">&lt;-</span> yardstick<span class="sc">::</span><span class="fu">conf_mat</span>(xgb_test_preds,</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">truth =</span> <span class="st">&quot;class&quot;</span>,</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate =</span> <span class="st">&quot;.pred_class&quot;</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">autoplot</span>(cmat_test, <span class="st">&quot;heatmap&quot;</span>)</span></code></pre></div>
+<p><img src="german_credit_files/figure-html/test%20AUC%20XGBoost-2.png" width="672" /></p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cmat_test, </span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">event_level =</span> <span class="st">&quot;second&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">:::</span><span class="fu">mutate</span>(<span class="at">.estimate =</span> <span class="fu">round</span>(.estimate, <span class="at">digits =</span> <span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(.metric, .estimate) <span class="sc">%&gt;%</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(.metric <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;accuracy&quot;</span>,<span class="st">&quot;bal_accuracy&quot;</span>,<span class="st">&quot;precision&quot;</span>, <span class="st">&quot;recall&quot;</span>, <span class="st">&quot;f_meas&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">.estimate =</span> formattable<span class="sc">::</span><span class="fu">color_tile</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;orange&quot;</span>)(.estimate)) <span class="sc">%&gt;%</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable</span>(<span class="at">escape =</span> F,</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">caption =</span> <span class="st">&quot;Corels Test data Performance&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(<span class="st">&quot;hover&quot;</span>, <span class="at">full_width =</span> F)</span></code></pre></div>
+<table class="table table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Corels Test data Performance
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+.metric
+</th>
+<th style="text-align:left;">
+.estimate
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+accuracy
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffdb9b">0.790</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+bal_accuracy
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">0.740</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+precision
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffa500">0.868</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+recall
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffb52d">0.845</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_meas
+</td>
+<td style="text-align:left;">
+<span
+style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffad17">0.856</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="xgboost-underlying-complex-rules" class="section level2">
+<h2>XGBoost underlying complex rules</h2>
+<p>The <a
+href="https://tidypredict.tidymodels.org/index.html">tidypredict</a>
+package..</p>
+<blockquote>
+<p>…reads the model, extracts the components needed to calculate the
+prediction, and then creates an R formula that can be translated into
+SQL</p>
+</blockquote>
+<p>Then <code>tidypredict::tidypredict_fit()</code> is used to return
+the formula in R <code>dplyr::case_when()</code> code required to
+re-create the classification of the XGBoost model. Note how complex this
+formula is in contrast to the simple Corels rules.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tidypredict::tidypredict_fit(final_fit$fit$fit)</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
