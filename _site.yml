@@ -6,12 +6,12 @@ output_dir: docs
 # - '*.Rmd'
 # - '*.csv'
 navbar:
-  title: DSM
+  title: TMNDataScience
   left:
   - text: Home
     href: index.html
-  - text: german_credit
-    href: german_credit.html
+  - text: CreditAnalysis
+    href: CreditAnalysis.html
   right:
     - icon: fa-github
       href: https://github.com/tmnestor/
